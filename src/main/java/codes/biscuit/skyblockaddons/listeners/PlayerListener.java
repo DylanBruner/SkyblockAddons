@@ -77,6 +77,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 
 import java.math.RoundingMode;
@@ -474,6 +475,13 @@ public class PlayerListener {
         }
         // Remove rank prefix and guild rank suffix if exists
         username = TextUtils.trimWhitespaceAndResets(username.replaceAll("\\[[^\\[\\]]*\\]",""));
+
+        // Fix for emblems
+        String[] parts = username.split(" ");
+        if (parts.length > 1){
+            username = parts[parts.length-1];
+        }
+
         // Check if stripped username is a real username or the player
         if (TextUtils.isUsername(username) || username.equals("**MINECRAFTUSERNAME**")) {
             EntityPlayer chattingPlayer = Minecraft.getMinecraft().theWorld.getPlayerEntityByName(username);
